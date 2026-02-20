@@ -6,19 +6,19 @@ import WikiCardGrid from "../../components/WikiCardGrid.astro";
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const baseLabel = import.meta.env.BASE_URL.replace(/^\/|\/$/g, "") || "Home";
 
-const pages = (await getCollection("phasmoWiki", ({ data }) => !data.draft))
+const pages = (await getCollection("labWiki", ({ data }) => !data.draft))
   .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""));
 
 const crumbs = [
   { label: baseLabel, href: `${BASE}/` },
-  { label: "phasmophobia" },
+  { label: "lab" },
 ];
 ---
 
 <WikiLayout
-  title="Phasmophobia Wiki"
-  description="Phasmophobiaのちょっと便利な知識をまとめていきます"
+  title="研究 Wiki"
+  description="このページでは研究に関する雑多な記事を紹介します"
   crumbs={crumbs}
 >
-  <WikiCardGrid basePath={`${BASE}/phasmophobia/`} pages={pages} />
+  <WikiCardGrid basePath={`${BASE}/lab/`} pages={pages} />
 </WikiLayout>

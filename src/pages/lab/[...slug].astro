@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import WikiLayout from "../../layouts/WikiLayout.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("phasmoWiki", ({ data }) => !data.draft);
+  const entries = await getCollection("labWiki", ({ data }) => !data.draft);
   return entries.map((entry) => ({
     params: { slug: entry.id }, // 例: "ghosts/spirit"
     props: { entry },
@@ -17,8 +17,8 @@ const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const fileSlug = entry.id.split("/").at(-1);
 const crumbs = [
-  { label: "home", href: `${BASE}/` },
-  { label: "phasmophobia", href: `${BASE}/phasmophobia/` },
+  { label: "Homepage", href: `${BASE}/` },
+  { label: "lab", href: `${BASE}/lab/` },
   { label: fileSlug },
 ];
 ---

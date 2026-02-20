@@ -13,4 +13,14 @@ export const collections = {
       draft: z.boolean().default(false),
     }),
   }),
+  labWiki: defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./wiki/lab" }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      tags: z.array(z.string()).default([]),
+      updated: z.string(), // "YYYY-MM-DD"
+      draft: z.boolean().default(false),
+    }),
+  }),
 };

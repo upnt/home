@@ -161,3 +161,136 @@ const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
     </style>
   </body>
 </html>
+
+  <style>
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    .controls{display:grid;gap:12px}
+    .search input{
+      width:min(560px, 100%);
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: var(--panel2);
+      outline:none;
+    }
+    .search input:focus{border-color: rgba(109,40,217,.45); background: #fff}
+
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{
+      cursor:pointer;
+      border:1px solid var(--stroke);
+      background: var(--panel2);
+      color: rgba(11,18,32,.82);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:.88rem;
+    }
+    .tag:hover{border-color: rgba(109,40,217,.35); background: rgba(109,40,217,.06)}
+    .tag.active{border-color: rgba(109,40,217,.55); background: rgba(109,40,217,.10)}
+    .tag .n{opacity:.65; margin-left:6px}
+    .tag.ghost{opacity:.9}
+  
+.grid{
+  list-style:none;
+  padding:0;
+  margin:18px 0 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+/* Notion-ish card */
+.card{
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:14px;
+  background:#fff;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03), 0 10px 26px rgba(15,23,42,.06);
+  overflow:hidden;
+}
+
+.cardLink{
+  display:block;
+  padding:16px 16px 14px;
+  height:100%;
+  /* リンクの既定見た目を完全排除 */
+  text-decoration:none !important;
+  color: inherit !important;
+}
+
+/* visitedでも一切変えない */
+.cardLink:visited{
+  color: inherit !important;
+  text-decoration:none !important;
+}
+
+/* 子要素にも下線を絶対に出さない */
+.cardLink *{
+  text-decoration:none !important;
+}
+
+/* hoverは控えめ（Notion寄せ） */
+.card:hover{
+  border-color: rgba(109,40,217,.18);
+  box-shadow: 0 1px 0 rgba(15,23,42,.03), 0 16px 40px rgba(15,23,42,.09);
+  transform: translateY(-1px);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.cardLink:focus-visible{
+  outline: 3px solid rgba(109,40,217,.18);
+  outline-offset: 2px;
+  border-radius:14px;
+}
+
+/* タイトル：タイトルっぽく（大きめ・太め） */
+.title{
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: .1px;
+  line-height: 1.25;
+  color: rgba(11,18,32,.94);
+}
+
+/* 説明：薄字・小さめ */
+.desc{
+  margin: 8px 0 0;
+  font-size: .92rem;
+  line-height: 1.6;
+  color: rgba(11,18,32,.58); /* ←薄字 */
+}
+
+/* タグ：視線誘導しすぎないが見える */
+.tags{
+  list-style:none;
+  padding:0;
+  margin: 12px 0 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.tag{
+  font-size: .78rem;
+  color: rgba(11,18,32,.60);
+  background: rgba(15,23,42,.04);
+  border: 1px solid rgba(15,23,42,.08);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* 説明が長いときの揃え（任意） */
+.desc{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:hidden;
+}
+
+/* Responsive */
+@media (max-width:980px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+}
+  </style>
