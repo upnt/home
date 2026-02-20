@@ -1,0 +1,163 @@
+---
+type Crumb = { label: string; href?: string };
+
+type Props = {
+  title: string;
+  description?: string;
+  crumbs: Crumb[];
+};
+
+const { title, description, crumbs } = Astro.props as Props;
+const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" href={`${BASE}/favicon.ico`} />
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="shell">
+        <div class="topbar">
+          <a class="brand" href={`${BASE}/`}>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Homepage</span>
+          </a>
+          <nav class="nav">
+            <a href={`${BASE}/phasmophobia/`}>Phasmophobia</a>
+          </nav>
+        </div>
+
+        <nav class="breadcrumb" aria-label="パンくず">
+          {crumbs.map((c, i) => (
+            <>
+              {i !== 0 && <span class="sep">›</span>}
+              {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            </>
+          ))}
+        </nav>
+
+        <div class="hero">
+          <h1>{title}</h1>
+          {description && <p class="lead">{description}</p>}
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="content">
+        <slot />
+      </section>
+
+      <footer class="footer">
+        <span class="muted">© upnt — Phasmophobia Wiki</span>
+      </footer>
+    </main>
+
+    <style>
+      :root{
+        --panel:#ffffff;
+        --panel2:#f7f7fb;
+        --stroke:#e6e6ef;
+        --text:#0b1220;
+        --muted:#4b5563;
+        --accent:#6d28d9;
+        --shadow: 0 12px 30px rgba(16,24,40,.08);
+        --r:16px;
+      }
+      *{box-sizing:border-box}
+      body{
+        margin:0;
+        background: linear-gradient(180deg, #ffffff, #fbfbff 60%, #f6f7ff);
+        color:var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      }
+      a{color:inherit}
+      .shell{max-width:1100px;margin:0 auto;padding:24px}
+      .top{
+        position:sticky; top:0; z-index:5;
+        background: rgba(255,255,255,.75);
+        backdrop-filter: blur(10px);
+        border-bottom:1px solid rgba(230,230,239,.8);
+      }
+      .topbar{
+        display:flex;align-items:center;justify-content:space-between;gap:16px;
+        padding:10px 12px;border:1px solid var(--stroke);border-radius:999px;
+        background: rgba(255,255,255,.85);
+        box-shadow: var(--shadow);
+      }
+      .brand{
+        display:flex;align-items:center;gap:10px;
+        text-decoration:none;font-weight:750;letter-spacing:.2px;
+      }
+      .dot{
+        width:10px;height:10px;border-radius:999px;
+        background: linear-gradient(135deg, var(--accent), #2563eb);
+      }
+      .nav a{
+        text-decoration:none; padding:8px 10px; border-radius:999px;
+        border:1px solid transparent; color: rgba(11,18,32,.78);
+      }
+      .nav a:hover{border-color:var(--stroke); background: rgba(109,40,217,.06); color: rgba(11,18,32,.92);}
+
+      .breadcrumb{
+        margin:14px 4px 0;
+        display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+        color: rgba(11,18,32,.78); font-size: .92rem;
+      }
+      .breadcrumb a{ text-decoration:none; border-bottom:1px solid transparent; }
+      .breadcrumb a:hover{ border-bottom-color: rgba(109,40,217,.45); color: rgba(11,18,32,.95); }
+      .sep{opacity:.5}
+
+      .hero{
+        margin-top:14px;
+        padding:18px;
+        border:1px solid var(--stroke);
+        border-radius: calc(var(--r) + 6px);
+        background:
+          radial-gradient(900px 420px at 15% -10%, rgba(109,40,217,.18), transparent 60%),
+          radial-gradient(700px 360px at 90% 0%, rgba(37,99,235,.12), transparent 55%),
+          var(--panel);
+        box-shadow: var(--shadow);
+      }
+      h1{margin:0 0 8px;font-size: clamp(2rem, 4vw, 2.6rem);line-height:1.05}
+      .lead{margin:0;color: rgba(11,18,32,.72); line-height:1.7; max-width: 80ch;}
+
+      .content{
+        margin-top:18px;
+        padding:18px;
+        border:1px solid var(--stroke);
+        border-radius: var(--r);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      /* Markdown統一 */
+      .content :global(h2){ margin-top: 1.8rem; }
+      .content :global(h3){ margin-top: 1.3rem; }
+      .content :global(p), .content :global(li){ color: rgba(11,18,32,.80); line-height:1.8; }
+      .content :global(a){ color: rgba(109,40,217,.92); text-decoration: underline; text-underline-offset: 2px; }
+      .content :global(code){
+        background: rgba(15,23,42,.06);
+        border:1px solid rgba(230,230,239,.9);
+        padding: 0 4px; border-radius: 6px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: .95em;
+      }
+      .content :global(pre){
+        background: #0b1220;
+        color: #e7eefc;
+        padding: 14px;
+        border-radius: 14px;
+        overflow:auto;
+      }
+      .muted{color: var(--muted);}
+      .footer{margin:28px 0 10px;padding-top:16px;border-top:1px solid var(--stroke)}
+    </style>
+  </body>
+</html>
