@@ -8,7 +8,7 @@ import rehypeKatex from "rehype-katex";
 // https://astro.build/config
 export default defineConfig({
   site: "https://upnt.github.io",
-  base: "/Homepage",
+  base: "/home",
 
   vite: {
     plugins: [tailwindcss()],
