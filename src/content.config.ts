@@ -3,8 +3,8 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 export const collections = {
-  phasmoWiki: defineCollection({
-    loader: glob({ pattern: "**/*.{md,mdx}", base: "./wiki/phasmophobia" }),
+  gameWiki: defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./wiki/game" }),
     schema: z.object({
       title: z.string(),
       description: z.string(),

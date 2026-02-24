@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import WikiLayout from "../../layouts/WikiLayout.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("labWiki", ({ data }) => !data.draft);
+  const entries = await getCollection("gameWiki", ({ data }) => !data.draft);
   return entries.map((entry) => ({
     params: { slug: entry.id }, // 例: "ghosts/spirit"
     props: { entry },
@@ -16,14 +16,15 @@ const { Content } = await render(entry);
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 const fileSlug = entry.id.split("/").at(-1);
-const crumbs = [ "lab", fileSlug ];
+const crumbs = [ "game", fileSlug ];
 ---
 
 <WikiLayout
   title={entry.data.title}
-  wikiName="研究wiki"
-  wikiLabel="lab"
+  wikiName="ゲームWiki"
+  wikiLabel="game"
   description={entry.data.description}
   crumbs={crumbs}>
+  
   <Content />
 </WikiLayout>

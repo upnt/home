@@ -1,14 +1,26 @@
 ---
-type Crumb = { label: string; href?: string };
-
+type Crumb = {label: string, href?: string}
 type Props = {
   title: string;
+  wikiName: string;
+  wikiLabel: string;
   description?: string;
-  crumbs: Crumb[];
+  crumbs: string[];
 };
 
-const { title, description, crumbs } = Astro.props as Props;
+const { title, wikiName, wikiLabel, description, crumbs } = Astro.props as Props;
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const breadcrumbObjects = crumbs.reduce<Crumb[]>((acc, label) => {
+  const prevHref =
+    acc.length === 0
+      ? BASE
+      : acc[acc.length - 1].href;
+
+  const href = `${prevHref}/${label}`;
+
+  acc.push({ label, href });
+  return acc;
+}, []);
 ---
 
 <html lang="ja">
@@ -26,20 +38,40 @@ const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
         <div class="topbar">
           <a class="brand" href={`${BASE}/`}>
             <span class="dot" aria-hidden="true"></span>
-            <span>Homepage</span>
+            <span>upntのホームページ</span>
           </a>
           <nav class="nav">
-            <a href={`${BASE}/phasmophobia/`}>Phasmophobia</a>
+            <a href={`${BASE}/${wikiLabel}/`}>{wikiName}</a>
           </nav>
         </div>
 
         <nav class="breadcrumb" aria-label="パンくず">
-          {crumbs.map((c, i) => (
-            <>
-              {i !== 0 && <span class="sep">›</span>}
-              {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
-            </>
-          ))}
+          {(() => {
+              const base = BASE.replace(/\/+$/, "");
+              let href = base;
+          
+              return (
+                <>
+                  <a href={`${base}/`}>home</a>
+          
+                  {crumbs.map((label, i) => {
+                    href += `/${label}`;          // ← 伸ばす
+                    const isLast = i === crumbs.length - 1;
+          
+                    return (
+                      <span key={i}>
+                        <span class="sep">›</span>
+                        {isLast ? (
+                          <span aria-current="page">{label}</span>
+                        ) : (
+                          <a href={href}>{label}</a>
+                        )}
+                      </span>
+                    );
+                  })}
+                </>
+              );
+            })()}
         </nav>
 
         <div class="hero">
@@ -55,7 +87,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
       </section>
 
       <footer class="footer">
-        <span class="muted">© upnt — Phasmophobia Wiki</span>
+        <span class="muted">© upnt — {wikiName}</span>
       </footer>
     </main>
 
