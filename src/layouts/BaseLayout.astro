@@ -5,7 +5,8 @@ import { profile } from "../data/profile"
 const { pageTitle } = Astro.props;
 const faviconUri = `${import.meta.env.BASE_URL}/favicon.ico`;
 const homeUri = `${import.meta.env.BASE_URL}`;
-const mathUri = `${import.meta.env.BASE_URL}/math`;
+const labUri = `${import.meta.env.BASE_URL}/lab`;
+const gameUri = `${import.meta.env.BASE_URL}/game`;
 ---
 
 <!doctype html>
@@ -18,11 +19,11 @@ const mathUri = `${import.meta.env.BASE_URL}/math`;
 	</head>
 	<body class="bg-white text-gray-900 font-sans">
 		<header class="bg-gray-100 py-4 px-6 shadow flex justify-between items-center">
-			<h1 class="text-xl fond-bold"><slot name="title"></h1>
+			<h1 class="text-xl font-bold"><a href={homeUri} class="hover:underline">upntのホームページ</a></h1>
 			<nav>
 				<ul class="flex gap-4 text-base">
-					<li><a href={homeUri} class="hover:underline">ホーム</a></li>
-					<li><a href={mathUri} class="hover:underline">研究について</a></li>
+					<li><a href={labUri} class="hover:underline">研究wiki</a></li>
+					<li><a href={gameUri} class="hover:underline">ゲームwiki</a></li>
 				</ul>
 			</nav>
 		</header>
